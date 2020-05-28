@@ -52,15 +52,22 @@ module.exports = {
     },
 
     async getImages(req, res) {
+        const {name} = req.body
         const response = await customSearch.cse.list({
             auth: process.env.GOOGLE_KEY,
             cx: process.env.SEARCH_ENGINE_ID,
-            q: 'Z Deli Sandwich Shop',
+            q: name,
             searchType: 'image',
-
-            num: 3
+            fileType: 'jpg',
+            num: 10
         })
 
-        res.json(response);
+        const imagesUrl = response.data.items.map(item => {
+            return item.link
+        })
+
+        console.log(imagesUrl)
+
+        res.json({});
     }
 }
